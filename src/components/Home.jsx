@@ -50,7 +50,7 @@ const Home = () => {
                         {service.service_name}
                       </h4>
                       <p className="text-gray-600 mt-2">
-                        Get the perfect hairstyle for every occasion.
+                        Get the perfect nail for every occasion.
                       </p>
                     </div>
                   </>

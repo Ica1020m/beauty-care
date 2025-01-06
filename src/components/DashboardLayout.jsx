@@ -1,14 +1,22 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const DashboardLayout = ({ children }) => {
-  const location = useLocation();
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user.role);
+
+  if (user.role!="admin" && user.role!="staff"){
+    alert("Anda bukan Admin/Staff!");
+    navigate("/");
+  }
+  
 
   const handleLogout = () => {
     // Implementasikan logika logout, misalnya dengan menghapus token dari localStorage
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    window.location.href = "/login"; // Arahkan pengguna ke halaman login setelah logout
+    navigate("/login"); // Arahkan pengguna ke halaman login setelah logout
   };
 
   return (

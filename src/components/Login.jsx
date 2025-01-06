@@ -24,8 +24,20 @@ const Login = () => {
 
       console.log(response);
 
-      alert("Login Berhasil!");
-      navigate("/dashboard");
+      const userRole = response.data.user.role;
+      if (userRole === "user") {
+        alert("Login Berhasil sebagai User!");
+        navigate("/");
+      } else if (userRole === "staff") {
+        alert("Login Berhasil sebagai Staff!");
+        navigate("/dashboard");
+      } else if (userRole === "admin") {
+        alert("Login Berhasil sebagai Admin!");
+        navigate("/dashboard");
+      } else {
+        alert("Role tidak dikenali!");
+      }
+    
     } catch (error) {
       console.error(error.response.data);
       alert(error.response.data.message || "Login Gagal!");

@@ -7,6 +7,21 @@ const DashboardService = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const deleteService = async (id) => {
+    try {
+      const response = await api.delete(`/services/${id}`);
+      if (response.status === 200) {
+        // Setelah berhasil dihapus, update daftar staff
+        setServices(services.filter((service) => service.id !== id));
+        alert("Service berhasil dihapus");
+      }
+    } catch (error) {
+      console.error("Error deleting Service:", error);
+      alert("Gagal menghapus Service");
+    }
+  };
+
+
   useEffect(() => {
     const getServices = async () => {
       try {
@@ -80,7 +95,7 @@ const DashboardService = () => {
                   >
                     Edit
                   </Link>
-                  <button className="w-full text-center py-2 bg-transparent text-gray-800 font-semibold rounded-b-lg hover:bg-pink-100 transition-colors">
+                  <button onClick={() => deleteService(service.id)}className="w-full text-center py-2 bg-transparent text-gray-800 font-semibold rounded-b-lg hover:bg-pink-100 transition-colors">
                     Hapus
                   </button>
                 </div>

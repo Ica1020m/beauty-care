@@ -51,7 +51,7 @@ const Staff = () => {
                   </div>
                 </>
               ))
-            : "Staff tidak ada"}
+            : "No staff available at the moment"}
         </div>
       </section>
     </MainLayout>

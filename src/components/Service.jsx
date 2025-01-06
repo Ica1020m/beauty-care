@@ -23,7 +23,7 @@ const Service = () => {
       <section className="bg-pink-100 py-20">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold text-gray-800">Services</h2>
-          <p className="text-gray-600 mt-4">list of our services</p>
+          <p className="text-gray-600 mt-4">List of our services</p>
         </div>
       </section>
       <section className="max-w-6xl mx-auto px-4 py-10">

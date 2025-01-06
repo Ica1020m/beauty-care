@@ -8,9 +8,9 @@ import App from "./App.jsx";
 import Service from "./components/Service.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </StrictMode>
+  // {/* </StrictMode> */}
 );

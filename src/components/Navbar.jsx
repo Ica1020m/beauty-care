@@ -21,31 +21,10 @@ const Navbar = () => {
   }, []); // Hanya dijalankan sekali saat komponen pertama kali dimuat
 
   const handleLogout = () => {
-    // Tampilkan SweetAlert untuk konfirmasi logout
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will be logged out of your account.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, log me out!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Hapus data dari localStorage
-        localStorage.removeItem("user");
-
-        // Beri notifikasi berhasil logout
-        Swal.fire(
-          "Logged Out!",
-          "You have been logged out successfully.",
-          "success"
-        ).then(() => {
-          // Arahkan ke halaman login
-          location(location.pathname);
-        });
-      }
-    });
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  alert("Berhasil Logout");
+  location("/");
   };
 
   return (

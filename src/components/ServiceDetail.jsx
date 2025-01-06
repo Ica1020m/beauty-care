@@ -8,11 +8,11 @@ const ServiceDetail = () => {
   const [serviceDetail, setServiceDetail] = useState(null);
   const parsedUser = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     if (!parsedUser) {
-      navigate("/login");
       alert("harap login terlebih dahulu");
+      navigate("/login");
     }
     const getServiceDetail = async () => {
       const {
@@ -26,7 +26,6 @@ const ServiceDetail = () => {
     getServiceDetail();
   }, []);
 
-  console.log(parsedUser.id);
 
   const getTodayDate = () => {
     const today = new Date();

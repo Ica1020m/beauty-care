@@ -6,6 +6,22 @@ import { Link } from "react-router-dom";
 const DashboardStaff = () => {
   const [staffs, setStaffs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // Fungsi untuk menghapus staff
+  const deleteStaff = async (id) => {
+    try {
+      const response = await api.delete(`/staff/${id}`);
+      if (response.status === 200) {
+        // Setelah berhasil dihapus, update daftar staff
+        setStaffs(staffs.filter((staff) => staff.id !== id));
+        alert("Staff berhasil dihapus");
+      }
+    } catch (error) {
+      console.error("Error deleting staff:", error);
+      alert("Gagal menghapus staff");
+    }
+  };
 
   useEffect(() => {
     const getStaffs = async () => {
@@ -37,12 +53,14 @@ const DashboardStaff = () => {
           </p>
         </div>
         <div className="my-4 text-right">
-          <Link
-            to="/dashboard/staff/add"
-            className="px-6 py-2 bg-pink-100 text-gray-800 font-semibold rounded-lg hover:bg-pink-200 transition-colors"
-          >
-            Add New Staff
-          </Link>
+          {user?.role === "admin" && (
+            <Link
+              to="/dashboard/staff/add"
+              className="px-6 py-2 bg-pink-100 text-gray-800 font-semibold rounded-lg hover:bg-pink-200 transition-colors"
+            >
+              Add New Staff
+            </Link>
+          )}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4 py-8">
           {loading ? (
@@ -75,7 +93,10 @@ const DashboardStaff = () => {
                   >
                     Edit
                   </Link>
-                  <button className="w-full text-center py-2 bg-transparent text-gray-800 font-semibold rounded-b-lg hover:bg-pink-100 transition-colors">
+                  <button
+                    onClick={() => deleteStaff(staff.id)} // Perbaiki di sini
+                    className="w-full text-center py-2 bg-transparent text-gray-800 font-semibold rounded-b-lg hover:bg-pink-100 transition-colors"
+                  >
                     Hapus
                   </button>
                 </div>
