@@ -14,6 +14,9 @@ import DashboardStaffAdd from "./components/DashboardStaffAdd";
 import DashboardStaffEdit from "./components/DashboardStaffEdit";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
+import Order from "./components/Order";
+import Portofolio from "./components/Portofolio";
+import PortofolioAdd from "./components/PortofolioAdd";
 
 function App() {
   return (
@@ -40,6 +43,10 @@ function App() {
 
       <Route path="/dashboard/services" element={<DashboardService />} />
       <Route path="/dashboard/services/add" element={<DashboardServiceAdd />} />
+
+      <Route path="/orders" element={<Order />} />
+      <Route path="/porto" element={<Portofolio />} />
+      <Route path="/dashboard/porto/add" element={<PortofolioAdd />} />
     </Routes>
   );
 }

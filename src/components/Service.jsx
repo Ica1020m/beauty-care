@@ -4,7 +4,7 @@ import api from "../api";
 import MainLayout from "./MainLayout";
 
 const Service = () => {
-  const [services, setServices] = useState({});
+  const [services, setServices] = useState([]);
 
   useEffect(() => {
     async function getServices() {
@@ -12,7 +12,6 @@ const Service = () => {
         data: { data },
       } = await api.get("/services");
       setServices(data); // Update state dengan data yang diterima
-      console.log(services);
     }
 
     getServices();
@@ -34,11 +33,7 @@ const Service = () => {
                   key={service.id}
                   className="bg-white rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform duration-200"
                 >
-                  <img
-                    src="https://via.placeholder.com/500x300"
-                    alt="Makeup"
-                    className="w-full h-48 object-cover"
-                  />
+                  {/* Menampilkan gambar dari server */}
                   <div className="p-4">
                     <h3 className="text-xl font-semibold">
                       {service.service_name}

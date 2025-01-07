@@ -6,11 +6,10 @@ const DashboardLayout = ({ children }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   console.log(user.role);
 
-  if (user.role!="admin" && user.role!="staff"){
+  if (user.role != "admin" && user.role != "staff") {
     alert("Anda bukan Admin/Staff!");
     navigate("/");
   }
-  
 
   const handleLogout = () => {
     // Implementasikan logika logout, misalnya dengan menghapus token dari localStorage
@@ -62,6 +61,30 @@ const DashboardLayout = ({ children }) => {
                     }`}
                   >
                     Staff
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/orders"
+                    className={`${
+                      location.pathname === "/orders"
+                        ? "block py-2 px-4 rounded bg-pink-700"
+                        : "block py-2 px-4 rounded"
+                    }`}
+                  >
+                    Order
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/porto"
+                    className={`${
+                      location.pathname === "/porto"
+                        ? "block py-2 px-4 rounded bg-pink-700"
+                        : "block py-2 px-4 rounded"
+                    }`}
+                  >
+                    Portofolio
                   </Link>
                 </li>
               </ul>

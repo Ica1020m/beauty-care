@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import MainLayout from "./MainLayout";
 import api from "../api";
+import { comment } from "postcss";
 
 const ServiceDetail = () => {
   const { id } = useParams();
   const [serviceDetail, setServiceDetail] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
   const parsedUser = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (!parsedUser) {
       alert("harap login terlebih dahulu");
@@ -20,22 +23,27 @@ const ServiceDetail = () => {
       } = await api.get(`/services/${id}`);
       if (data) {
         setServiceDetail(data);
-        console.log(data);
       }
     };
-    getServiceDetail();
-  }, []);
 
+    const getComments = async () => {
+      const {
+        data: { data },
+      } = await api.get(`/services/${id}/review`);
+      if (data) {
+        setComments(data);
+      }
+    };
+
+    getServiceDetail();
+    getComments();
+  }, [id]);
 
   const getTodayDate = () => {
     const today = new Date();
-
-    // Ambil bagian tahun, bulan, dan tanggal
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0"); // Tambah 1 karena bulan dimulai dari 0
+    const month = String(today.getMonth() + 1).padStart(2, "0");
     const day = String(today.getDate()).padStart(2, "0");
-
-    // Gabungkan menjadi format yyyy-mm-dd
     return `${year}-${month}-${day}`;
   };
 
@@ -53,6 +61,28 @@ const ServiceDetail = () => {
     } catch (error) {
       console.error(error);
       alert("Terjadi kesalahan saat memproses order.");
+    }
+  };
+
+  const handleCommentChange = (e) => {
+    setNewComment(e.target.value);
+  };
+
+  const submitComment = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.post(`/services/${id}/comments`, {
+        user_id: parsedUser.id,
+        comment: newComment,
+      });
+      if (response.status === 201) {
+        setComments([...comments, response.data]);
+        setNewComment(""); // Reset komentar setelah dikirim
+        alert("Komentar berhasil ditambahkan!");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Terjadi kesalahan saat mengirim komentar.");
     }
   };
 
@@ -99,6 +129,50 @@ const ServiceDetail = () => {
                   Order Now
                 </button>
               </form>
+            </div>
+          </div>
+
+          {/* Comment Section */}
+          <div className="mt-12">
+            <h3 className="text-2xl font-semibold text-gray-800">Comments</h3>
+
+            {/* Formulir Komentar */}
+            <form onSubmit={submitComment} className="mt-6">
+              <textarea
+                value={newComment}
+                onChange={handleCommentChange}
+                placeholder="Tinggalkan komentar..."
+                className="w-full p-4 border rounded-lg shadow-md"
+                rows="4"
+                required
+              />
+              <button
+                type="submit"
+                className="mt-4 bg-pink-600 text-white py-2 px-6 rounded hover:bg-pink-700"
+              >
+                Post Comment
+              </button>
+            </form>
+
+            {/* Daftar Komentar */}
+            <div className="mt-8">
+              {comments.length === 0 ? (
+                <p className="text-gray-600">No comments yet.</p>
+              ) : (
+                <ul className="space-y-4">
+                  {comments.map((comment) => (
+                    <li
+                      key={comment.id}
+                      className="bg-gray-100 p-4 rounded-lg shadow-md"
+                    >
+                      <p className="text-gray-800">{comment.comment}</p>
+                      <p className="text-gray-500 text-sm">
+                        By {comment.user.name}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
 
